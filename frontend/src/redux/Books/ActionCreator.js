@@ -1,8 +1,5 @@
 import * as at from './ActionTypes';
 
-
-
-
 export const addBook = (book) => {
     return {
         type: at.ADD_BOOK,
