@@ -3,19 +3,22 @@ import "./BookList.css";
 import {deleteBook, makeBookAsFavourite} from "../../redux/Books/ActionCreator";
 import { BsBookmarkHeart } from "react-icons/bs";
 import { BsBookmarkHeartFill } from "react-icons/bs";
-import {selectTitleFilter} from "../../redux/slices/filterSlice";
+import {selectAuthorFilter, selectTitleFilter} from "../../redux/slices/filterSlice";
 
 
 const BookList = () => {
     const dispatch = useDispatch();
     const books = useSelector(state => state.books); //every time books will change => rerender
     const titleFilter = useSelector(selectTitleFilter);
-
+    const authorFilter = useSelector(selectAuthorFilter);
 
     const filteredBooks = books.filter((book)=>{
         const matchesTitle = book.title
             .toLowerCase()
-            .includes(titleFilter.toLowerCase());
+            .includes(titleFilter.toLowerCase()) &&
+            book.author
+            .toLowerCase()
+            .includes(authorFilter.toLowerCase());
             return matchesTitle
     });
 
