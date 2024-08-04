@@ -3,22 +3,31 @@ import "./BookList.css";
 import {deleteBook, makeBookAsFavourite} from "../../redux/Books/ActionCreator";
 import { BsBookmarkHeart } from "react-icons/bs";
 import { BsBookmarkHeartFill } from "react-icons/bs";
+import {selectTitleFilter} from "../../redux/slices/filterSlice";
+
 
 const BookList = () => {
     const dispatch = useDispatch();
     const books = useSelector(state => state.books); //every time books will change => rerender
+    const titleFilter = useSelector(selectTitleFilter);
 
 
+    const filteredBooks = books.filter((book)=>{
+        const matchesTitle = book.title
+            .toLowerCase()
+            .includes(titleFilter.toLowerCase());
+            return matchesTitle
+    });
 
 
     return(
         <div className="app-block book-list">
             <h2>Book List</h2>
-            {books.length ===0 ? (
+            {books.length === 0 ? (
             <p>No books available</p>
                 ):(
                     <ul>
-                        {books.map((book,i) => (
+                        {filteredBooks.map((book,i) => (
                             <li key={i}>
                                 <div className="book-info">
                                     {++i}.{book.title} by <strong>{book.author}</strong>
