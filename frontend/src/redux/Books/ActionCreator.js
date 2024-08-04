@@ -19,3 +19,11 @@ export const deleteBook = (bookId) => {
         payload: bookId
     }
 }
+
+
+export const makeBookAsFavourite = (bookId) => {
+    return{
+        type: at.MAKE_FAVOURITE,
+        payload:bookId
+    }
+}
