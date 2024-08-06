@@ -26,6 +26,21 @@ const BookList = () => {
     });
 
 
+    const highligtMatch = (text, filter) =>{
+        if (!filter) return text ;
+
+        const regex = new RegExp(`(${filter})`,'gi'); //if we use () we won't delete filter
+        return text.split(regex).map((substring, i) =>{
+            if (substring.toLowerCase()===filter.toLowerCase()){
+                return(
+                    <span key={i} className="highlight">{substring}</span>
+                );
+            }
+            return substring;
+        })
+
+    }
+
     return(
         <div className="app-block book-list">
             <h2>Book List</h2>
@@ -36,7 +51,8 @@ const BookList = () => {
                         {filteredBooks.map((book,i) => (
                             <li key={i}>
                                 <div className="book-info">
-                                    {++i}.{book.title} by <strong>{book.author}</strong>
+                                    {++i}.{highligtMatch(book.title , titleFilter)} by
+                                    <strong>{highligtMatch(book.author,authorFilter)}</strong>
                                 </div>
                                 <span onClick={()=>dispatch(makeBookAsFavourite(book.id))}>
                                 {book.isFavourite ? (
