@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import "./BookList.css";
-import {deleteBook, makeBookAsFavourite} from "../../redux/Books/ActionCreator";
+import {makeBookAsFavourite, deleteBook} from "../../redux/slices/bookSlice";
 import { BsBookmarkHeart } from "react-icons/bs";
 import { BsBookmarkHeartFill } from "react-icons/bs";
 import {selectAuthorFilter, selectTitleFilter , selectOnlyFavourite} from "../../redux/slices/filterSlice";
@@ -51,7 +51,7 @@ const BookList = () => {
                         {filteredBooks.map((book,i) => (
                             <li key={i}>
                                 <div className="book-info">
-                                    {++i}.{highligtMatch(book.title , titleFilter)} by
+                                    {++i}. {highligtMatch(book.title , titleFilter)} by
                                     <strong>{highligtMatch(book.author,authorFilter)}</strong>
                                 </div>
                                 <span onClick={()=>dispatch(makeBookAsFavourite(book.id))}>
