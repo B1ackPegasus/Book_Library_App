@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import "./BookList.css";
-import {makeBookAsFavourite, deleteBook} from "../../redux/slices/bookSlice";
+import {makeBookAsFavourite, deleteBook, selectBooks} from "../../redux/slices/bookSlice";
 import { BsBookmarkHeart } from "react-icons/bs";
 import { BsBookmarkHeartFill } from "react-icons/bs";
 import {selectAuthorFilter, selectTitleFilter , selectOnlyFavourite} from "../../redux/slices/filterSlice";
@@ -8,7 +8,7 @@ import {selectAuthorFilter, selectTitleFilter , selectOnlyFavourite} from "../..
 
 const BookList = () => {
     const dispatch = useDispatch();
-    const books = useSelector(state => state.books); //every time books will change => rerender
+    const books = useSelector(selectBooks); //every time books will change => rerender
     const titleFilter = useSelector(selectTitleFilter);
     const authorFilter = useSelector(selectAuthorFilter);
     const onlyFavouriteFilter = useSelector(selectOnlyFavourite);

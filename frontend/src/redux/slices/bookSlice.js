@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {useSelector} from "react-redux";
 
 
 const initialState = []
@@ -29,7 +30,7 @@ export const {addBook
              ,deleteBook
              ,makeBookAsFavourite} = bookSlice.actions;
 
-
+export const selectBooks = state => state.books; //every time books will change => rerender
 export default bookSlice.reducer
 
 
