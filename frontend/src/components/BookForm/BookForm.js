@@ -36,19 +36,27 @@ const BookForm = () => {
         dispatch(addBook(CreateBookWithID(randomBook,'random')))
     }
 
-    const handleAddRandomViaApi = async () =>{
+
+    const thankFunction = async (dispatch,getState)=> {
         try {
             const response = await axios.get("http://localhost:4000/random-book") //wait until  info come
-            if (response?.data?.title && response?.data?.author) { //use ? co if it  undefined we wont get error
-                dispatch(addBook(createBookWithID(response.data , 'api')))
+            if (response?.data?.title && response?.data?.author) { //use ? so if it  undefined we wont get error
+                dispatch(addBook(createBookWithID(response.data, 'api')))
             }
-        }
-        catch(error){
+        } catch (error) {
             console.log(error)
         }
+    }
+     //use async so code can continue
+    //better to write it in Slice (bookSlice)
+
+
+    const handleAddRandomViaApi = () =>{
+            //sent async function to redux so it can call it  and in code now we work only usual functions
+            dispatch(thankFunction)
 
     }
-    //use async so code can continue
+
 
     return (
         <div className="app-block book-form">
