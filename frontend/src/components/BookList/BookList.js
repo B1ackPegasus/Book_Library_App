@@ -52,7 +52,8 @@ const BookList = () => {
                             <li key={i}>
                                 <div className="book-info">
                                     {++i}.{highligtMatch(book.title , titleFilter)} by
-                                    <strong>{highligtMatch(book.author,authorFilter)}</strong>
+                                    <strong> {highligtMatch(book.author,authorFilter)} </strong>
+                                    ({book.source})
                                 </div>
                                 <span onClick={()=>dispatch(makeBookAsFavourite(book.id))}>
                                 {book.isFavourite ? (
