@@ -6,7 +6,7 @@ import booksData from "../../data/books.json"
 import CreateBookWithID from "../../utils/CreateBookWithID";
 import axios, {isAxiosError} from "axios";
 import createBookWithID from "../../utils/CreateBookWithID"; // to do request to API
-
+import {setError} from "../../redux/slices/errorSlice";
 
 const BookForm = () => {
 
@@ -28,6 +28,10 @@ const BookForm = () => {
             setTitle("")
             setAuthor("")
         }
+        else{
+            dispatch(setError('Title and author are required'))
+        }
+
     }
 
 
