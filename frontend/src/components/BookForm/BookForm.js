@@ -1,11 +1,12 @@
 import  "./BookForm.css"
 import {useState} from 'react'
 import {useDispatch} from 'react-redux'
-import {addBook} from "../../redux/slices/bookSlice";
+import {addBook , thankFunction , fetchBook} from "../../redux/slices/bookSlice";
 import booksData from "../../data/books.json"
 import CreateBookWithID from "../../utils/CreateBookWithID";
 import axios, {isAxiosError} from "axios";
 import createBookWithID from "../../utils/CreateBookWithID"; // to do request to API
+
 
 const BookForm = () => {
 
@@ -37,26 +38,13 @@ const BookForm = () => {
     }
 
 
-    const thankFunction = async (dispatch,getState)=> {
-        try {
-            const response = await axios.get("http://localhost:4000/random-book") //wait until  info come
-            if (response?.data?.title && response?.data?.author) { //use ? so if it  undefined we wont get error
-                dispatch(addBook(createBookWithID(response.data, 'api')))
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-     //use async so code can continue
-    //better to write it in Slice (bookSlice)
-
 
     const handleAddRandomViaApi = () =>{
             //sent async function to redux so it can call it  and in code now we work only usual functions
-            dispatch(thankFunction)
+           // dispatch(thankFunction)
+           dispatch(fetchBook())
 
     }
-
 
     return (
         <div className="app-block book-form">

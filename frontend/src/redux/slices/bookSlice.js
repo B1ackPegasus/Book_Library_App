@@ -1,6 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice  , createAsyncThunk} from "@reduxjs/toolkit";
 import {useSelector} from "react-redux";
-
+import axios from "axios";
+import createBookWithID from "../../utils/CreateBookWithID";
+import * as fethooks from "./bookSlice";
 
 const initialState = []
 
@@ -8,6 +10,7 @@ const bookSlice = createSlice({
     name:"book",
     initialState,
     reducers:{
+
         addBook:(state, action) =>{
             return [...state, action.payload]
         },
@@ -21,6 +24,14 @@ const bookSlice = createSlice({
                     book
             )
         }
+    },
+    extraReducers:(builder) =>{
+        builder.addCase(fetchBook.fulfilled , (state, action) =>{
+            if (action.payload.title && action.payload.author) {
+               state.push(createBookWithID(action.payload, 'api'))
+            }
+        })
+        //if fulfield -> call function reducer
     }
 })
 
@@ -30,9 +41,30 @@ export const {addBook
              ,deleteBook
              ,makeBookAsFavourite} = bookSlice.actions;
 
+
+export const fetchBook = createAsyncThunk('book/fetchBook', async()=>{
+        const res = await axios.get("http://localhost:4000/random-book");
+        return res.data;
+    }
+)
+
+
+
+
+/*export const thankFunction = async (dispatch,getState)=> {
+    try {
+        const response = await axios.get("http://localhost:4000/random-book") //wait until  info come
+        if (response?.data?.title && response?.data?.author) { //use ? so if it  undefined we wont get error
+            dispatch(addBook(createBookWithID(response.data, 'api')))
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}*/
+
+
 export const selectBooks = state => state.books; //every time books will change => rerender
 export default bookSlice.reducer
 
 
-//bookSlice.action  have function inside that creates action
-//addbook create action | action = { type:book/addBook  payload: info}
+
