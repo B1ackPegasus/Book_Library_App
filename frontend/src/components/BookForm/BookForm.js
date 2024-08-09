@@ -46,7 +46,7 @@ const BookForm = () => {
     const handleAddRandomViaApi = () =>{
             //sent async function to redux so it can call it  and in code now we work only usual functions
            // dispatch(thankFunction)
-           dispatch(fetchBook())
+           dispatch(fetchBook("http://localhost:5000/random-book"))
 
     }
 

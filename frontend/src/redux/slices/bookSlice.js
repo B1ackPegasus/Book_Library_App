@@ -3,6 +3,7 @@ import {useSelector} from "react-redux";
 import axios from "axios";
 import createBookWithID from "../../utils/CreateBookWithID";
 import * as fethooks from "./bookSlice";
+import {setError} from "./errorSlice";
 
 const initialState = []
 
@@ -42,9 +43,19 @@ export const {addBook
              ,makeBookAsFavourite} = bookSlice.actions;
 
 
-export const fetchBook = createAsyncThunk('book/fetchBook', async()=>{
-        const res = await axios.get("http://localhost:4000/random-book");
-        return res.data;
+export const fetchBook = createAsyncThunk(
+    'book/fetchBook', async(url,thunkAPI)=>{
+        try{
+            const res = await axios.get(url);
+            return res;
+        }
+        catch(err){
+            thunkAPI.dispatch(setError(err.message))
+            throw err //to avoid getting into reducer (fulfilled)
+        }
+
+
+
     }
 )
 
