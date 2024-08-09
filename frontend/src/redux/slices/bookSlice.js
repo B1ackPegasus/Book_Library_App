@@ -7,6 +7,16 @@ import {setError} from "./errorSlice";
 
 const initialState = []
 
+export const fetchBook = createAsyncThunk(
+    'book/fetchBook', async(url,thunkAPI)=> {
+        try {
+            const res = await axios.get(url);
+            return res.data;
+        } catch (err) {
+            thunkAPI.dispatch(setError(err.message))
+            throw err //to avoid getting into reducer (fulfilled)
+        }
+    })
 const bookSlice = createSlice({
     name:"book",
     initialState,
@@ -26,13 +36,20 @@ const bookSlice = createSlice({
             )
         }
     },
-    extraReducers:(builder) =>{
+  /* OPTION 1    extraReducers:(builder) =>{
         builder.addCase(fetchBook.fulfilled , (state, action) =>{
             if (action.payload.title && action.payload.author) {
                state.push(createBookWithID(action.payload, 'api'))
             }
         })
         //if fulfield -> call function reducer
+    }*/
+    extraReducers:{
+        [fetchBook.fulfilled] : (state, action) => {
+            if (action.payload.title && action.payload.author) {
+                state.push(createBookWithID(action.payload, 'api'))
+            }
+        }
     }
 })
 
@@ -43,21 +60,12 @@ export const {addBook
              ,makeBookAsFavourite} = bookSlice.actions;
 
 
-export const fetchBook = createAsyncThunk(
-    'book/fetchBook', async(url,thunkAPI)=>{
-        try{
-            const res = await axios.get(url);
-            return res;
-        }
-        catch(err){
-            thunkAPI.dispatch(setError(err.message))
-            throw err //to avoid getting into reducer (fulfilled)
-        }
 
 
 
-    }
-)
+
+
+
 
 
 
