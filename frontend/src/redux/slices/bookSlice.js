@@ -1,11 +1,12 @@
 import { createSlice  , createAsyncThunk} from "@reduxjs/toolkit";
-import {useSelector} from "react-redux";
 import axios from "axios";
 import createBookWithID from "../../utils/CreateBookWithID";
-import * as fethooks from "./bookSlice";
 import {setError} from "./errorSlice";
 
-const initialState = []
+const initialState = {
+    books:[],
+    isLoading:false
+}
 
 export const fetchBook = createAsyncThunk(
     'book/fetchBook', async(url,thunkAPI)=> {
@@ -14,7 +15,7 @@ export const fetchBook = createAsyncThunk(
             return res.data;
         } catch (err) {
             thunkAPI.dispatch(setError(err.message))
-            throw err //to avoid getting into reducer (fulfilled)
+             return thunkAPI.rejectWithValue(err) //to avoid getting into reducer (fulfilled)
         }
     })
 const bookSlice = createSlice({
@@ -23,15 +24,15 @@ const bookSlice = createSlice({
     reducers:{
 
         addBook:(state, action) =>{
-            return [...state, action.payload]
+             state.books.push(action.payload)
         },
         deleteBook:(state , action)=>{
-            return state.filter(book => book.id !== action.payload)
+            return{...state ,books: state.books.filter(book => book.id !== action.payload)}
         },
         makeBookAsFavourite:(state, action)=>{
-            return state.map(book =>
+            return state.books.forEach(book =>
                 book.id === action.payload //payload holds id of book
-                    ? { ...book , isFavourite: !book.isFavourite }:
+                    ?  book.isFavourite= !book.isFavourite :
                     book
             )
         }
@@ -45,10 +46,17 @@ const bookSlice = createSlice({
         //if fulfield -> call function reducer
     }*/
     extraReducers:{
+        [fetchBook.pending]: (state)=>{
+            state.isLoading=true;
+        },
         [fetchBook.fulfilled] : (state, action) => {
+            state.isLoading=false;
             if (action.payload.title && action.payload.author) {
-                state.push(createBookWithID(action.payload, 'api'))
+                state.books.push(createBookWithID(action.payload, 'api'))
             }
+        },
+        [fetchBook.rejected] : (state, action) => {
+            state.isLoading=false;
         }
     }
 })
@@ -58,16 +66,6 @@ const bookSlice = createSlice({
 export const {addBook
              ,deleteBook
              ,makeBookAsFavourite} = bookSlice.actions;
-
-
-
-
-
-
-
-
-
-
 
 
 /*export const thankFunction = async (dispatch,getState)=> {
@@ -81,8 +79,8 @@ export const {addBook
     }
 }*/
 
-
-export const selectBooks = state => state.books; //every time books will change => rerender
+export const selectIsLoading=(state)=>state.books.isLoading
+export const selectBooks = state => state.books.books; //every time books will change => rerender
 export default bookSlice.reducer
 
 

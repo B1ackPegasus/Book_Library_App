@@ -1,19 +1,19 @@
 import  "./BookForm.css"
 import {useState} from 'react'
-import {useDispatch} from 'react-redux'
+import {useDispatch , useSelector} from 'react-redux'
 import {addBook , thankFunction , fetchBook} from "../../redux/slices/bookSlice";
 import booksData from "../../data/books.json"
 import CreateBookWithID from "../../utils/CreateBookWithID";
-import axios, {isAxiosError} from "axios";
-import createBookWithID from "../../utils/CreateBookWithID"; // to do request to API
 import {setError} from "../../redux/slices/errorSlice";
+import {FaSpinner} from "react-icons/fa";
+import {selectIsLoading} from "../../redux/slices/bookSlice";
 
 const BookForm = () => {
 
     const [title,setTitle] = useState("")
     const [author , setAuthor] = useState("")
     const dispatch = useDispatch()
-
+    const isLoading = useSelector(selectIsLoading);
 
     const handleSubmit = (e)=>{
 
@@ -45,7 +45,6 @@ const BookForm = () => {
 
     const handleAddRandomViaApi = () =>{
             //sent async function to redux so it can call it  and in code now we work only usual functions
-           // dispatch(thankFunction)
            dispatch(fetchBook("http://localhost:4000/random-book"))
 
     }
@@ -66,7 +65,13 @@ const BookForm = () => {
                 </div>
                 <button type="submit">Add Book</button>
                 <button type="button" onClick={handleRandomBook}>Add Random</button>
-                <button type = "button" onClick={handleAddRandomViaApi}>Add random via API</button>
+                <button type = "button" onClick={handleAddRandomViaApi} disabled={isLoading}>
+                    {isLoading ? (<>
+                    <span> Is Loading </span>
+                    <FaSpinner className="spinner"/>
+                     </>):
+                    " Add random via API"}
+                   </button>
             </form>
         </div>
     )

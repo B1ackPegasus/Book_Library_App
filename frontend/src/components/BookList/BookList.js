@@ -28,7 +28,6 @@ const BookList = () => {
 
     const highligtMatch = (text, filter) =>{
         if (!filter) return text ;
-
         const regex = new RegExp(`(${filter})`,'gi'); //if we use () we won't delete filter
         return text.split(regex).map((substring, i) =>{
             if (substring.toLowerCase()===filter.toLowerCase()){
