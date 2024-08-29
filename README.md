@@ -1,5 +1,6 @@
 ## Book Library App
-<img width="1150" alt="Zrzut ekranu 2024-08-10 o 19 46 56" src="https://github.com/user-attachments/assets/e0c300e5-18df-455b-949f-3407bd457476">
+<img width="1151" alt="Zrzut ekranu 2024-08-29 o 20 10 25" src="https://github.com/user-attachments/assets/ae4a449e-889c-40b5-b74e-c227d5e28788">
+
 
 # Project React with Redux . 
 
