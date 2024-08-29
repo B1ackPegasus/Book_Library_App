@@ -13,7 +13,6 @@ const filterSlice = createSlice({
             setTitleFilter:(state, action) =>{
             return {...state , title:action.payload}
             // mutate state with Slices ex state.title='' using Immer => create new object with changes autom.
-
             },
             setAuthorFilter:(state, action) =>{
                 return{...state ,author:action.payload}
@@ -34,11 +33,14 @@ const filterSlice = createSlice({
 //filterSlice.actions.setTitleFilter('toPayload')
 
 
+
 export const {setTitleFilter
              ,resetFilter
              ,setAuthorFilter
              ,showFavourite
              } = filterSlice.actions
+
+//функуия которая вернет екшн (type : filter/setTitleFilter payload : )
 
 
 export const selectAuthorFilter = (state) => state.filter.author

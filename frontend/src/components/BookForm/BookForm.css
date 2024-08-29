@@ -18,8 +18,8 @@
 }
 
 .book-form button {
-    background-color: #1b3761;
-    color: #fff;
+    background-color: #d7d7d7;
+    color: black;
     padding: 8px 12px;
     border: none;
     border-radius: 3px;
@@ -29,7 +29,7 @@
 }
 
 .book-form button:hover {
-    background-color: #05325a;
+    background-color: #8e8e8e;
 }
 
 .book-form .spinner {

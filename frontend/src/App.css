@@ -7,8 +7,9 @@
 }
 
 .app-header {
-  background-color: #232242;
-  color: #fff;
+  background-color: rgba(242, 242, 242, 0.8);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: black;
   width: 100%;
   margin-bottom: 20px;
 }
